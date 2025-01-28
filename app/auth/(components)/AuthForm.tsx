@@ -1,9 +1,5 @@
 "use client";
 
-import { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
 	Form,
@@ -15,42 +11,10 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { usePostOtpQuery } from "../(hooks)/usePostOtpQuery";
+import { useAuthForm } from "../(hooks)/useAuthForm";
 
-const formSchema = z.object({
-	phone: z.string().min(10, {
-		message: "Введите корректный номер телефона",
-	}),
-	otp: z.string().optional(),
-});
-
-interface AuthFormProps {
-	isOtpStage?: boolean;
-	isLoading?: boolean;
-}
-
-export const AuthForm: React.FC<AuthFormProps> = ({}) => {
-	const [isOtpStage, setOtpStage] = useState(false);
-	const isLoading = false;
-	const { mutate: postOtpMutate } = usePostOtpQuery();
-
-	const form = useForm<z.infer<typeof formSchema>>({
-		resolver: zodResolver(formSchema),
-		defaultValues: {
-			phone: "",
-			otp: "",
-		},
-	});
-
-	function onSubmit(values: z.infer<typeof formSchema>) {
-		
-		if (!isOtpStage) {
-			postOtpMutate({ phone: values.phone }); 
-			setOtpStage(true); 
-		} else {
-			console.log("OTP submitted:", values.otp); 
-		}
-	}
+export const AuthForm = () => {
+	const { form, isOtpStage, onSubmit, setOtpStage } = useAuthForm();
 
 	return (
 		<Form {...form}>
@@ -87,9 +51,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({}) => {
 					/>
 				)}
 
-				<Button type="submit" disabled={isLoading}>
-					{isOtpStage ? "Войти" : "Продолжить"}
-				</Button>
+				<Button type="submit"> {isOtpStage ? "Войти" : "Продолжить"} </Button>
 			</form>
 		</Form>
 	);
