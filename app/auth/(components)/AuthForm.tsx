@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { useAuthForm } from "../(hooks)/useAuthForm";
 
 export const AuthForm = () => {
-    const { form, isOtpStage, onSubmit, setOtpStage } = useAuthForm();
+    const { form, isOtpStage, onSubmit } = useAuthForm();
 
     return (
         <Form {...form}>
@@ -57,7 +57,6 @@ export const AuthForm = () => {
                 )}
 
                 <Button type="submit">
-                    {" "}
                     {isOtpStage ? "Войти" : "Продолжить"}{" "}
                 </Button>
             </form>

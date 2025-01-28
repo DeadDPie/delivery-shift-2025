@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { setCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -10,6 +11,8 @@ import { usePostOtpQuery } from "../(hooks)/usePostOtpQuery";
 import { usePostSignInQuery } from "./usePostSignInQuery ";
 
 export const useAuthForm = () => {
+    const router = useRouter();
+
     const [isOtpStage, setOtpStage] = useState(false);
     const { mutate: postOtpMutate } = usePostOtpQuery();
     const { mutate: postSignInMutate } = usePostSignInQuery();
@@ -47,6 +50,7 @@ export const useAuthForm = () => {
                             sameSite: "strict",
                             path: "/",
                         });
+                        router.push("/");
                     },
                 }
             );
