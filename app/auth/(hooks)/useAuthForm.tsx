@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { setCookie } from "cookies-next";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -39,6 +40,13 @@ export const useAuthForm = () => {
                 {
                     onSuccess: (response) => {
                         console.log("User authenticated:", response);
+
+                        setCookie("token", response.token, {
+                            maxAge: 60 * 60 * 24 * 7,
+                            secure: true,
+                            sameSite: "strict",
+                            path: "/",
+                        });
                     },
                 }
             );
