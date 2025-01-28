@@ -2,57 +2,65 @@
 
 import { Button } from "@/components/ui/button";
 import {
-	Form,
-	FormControl,
-	FormDescription,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+
 import { useAuthForm } from "../(hooks)/useAuthForm";
 
 export const AuthForm = () => {
-	const { form, isOtpStage, onSubmit, setOtpStage } = useAuthForm();
+    const { form, isOtpStage, onSubmit, setOtpStage } = useAuthForm();
 
-	return (
-		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-				<FormField
-					control={form.control}
-					name="phone"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Авторизация</FormLabel>
-							<FormDescription>
-								Введите номер телефона для входа в личный кабинет
-							</FormDescription>
-							<FormControl>
-								<Input placeholder="Телефон" {...field} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+    return (
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Авторизация</FormLabel>
+                            <FormDescription>
+                                Введите номер телефона для входа в личный
+                                кабинет
+                            </FormDescription>
+                            <FormControl>
+                                <Input placeholder="Телефон" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
 
-				{isOtpStage && (
-					<FormField
-						control={form.control}
-						name="otp"
-						render={({ field }) => (
-							<FormItem>
-								<FormControl>
-									<Input placeholder="Проверочный код" {...field} />
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-				)}
+                {isOtpStage && (
+                    <FormField
+                        control={form.control}
+                        name="otp"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <Input
+                                        placeholder="Проверочный код"
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                )}
 
-				<Button type="submit"> {isOtpStage ? "Войти" : "Продолжить"} </Button>
-			</form>
-		</Form>
-	);
+                <Button type="submit">
+                    {" "}
+                    {isOtpStage ? "Войти" : "Продолжить"}{" "}
+                </Button>
+            </form>
+        </Form>
+    );
 };
