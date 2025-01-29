@@ -31,7 +31,15 @@ export const AuthForm = () => {
                                 кабинет
                             </FormDescription>
                             <FormControl>
-                                <Input placeholder="Телефон" {...field} />
+                                <Input
+                                    placeholder="Телефон"
+                                    {...field}
+                                    onChange={(e) => {
+                                        field.onChange(
+                                            e.target.value.replace(/\s+/g, "")
+                                        );
+                                    }}
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -48,6 +56,14 @@ export const AuthForm = () => {
                                     <Input
                                         placeholder="Проверочный код"
                                         {...field}
+                                        onChange={(e) => {
+                                            field.onChange(
+                                                e.target.value.replace(
+                                                    /\s+/g,
+                                                    ""
+                                                )
+                                            );
+                                        }}
                                     />
                                 </FormControl>
                                 <FormMessage />

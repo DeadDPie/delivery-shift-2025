@@ -10,9 +10,8 @@ export interface OtpResponse {
 }
 
 export const postOtp = async (params: OtpRequestParams) => {
-    const response = await instance.post<OtpResponse>(
-        "/auth/otp",
-        params.phone
-    );
+    const response = await instance.post<OtpResponse>("/auth/otp", {
+        phone: params.phone,
+    });
     return response.data;
 };
