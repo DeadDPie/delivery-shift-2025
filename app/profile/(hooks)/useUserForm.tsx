@@ -1,40 +1,24 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { useEffect } from "react";
-
+import { User } from "../(components)/UserForm";
 import { UserFormData, userFormSchema } from "../(constants)/userFormSchemas";
-import { useSessionQuery } from "./useSessionQuery";
 import { useUpdateProfileMutation } from "./useUpdateProfileMutation";
 
-export const useUserForm = () => {
-    const { data, isLoading, isError, error } = useSessionQuery();
+export const useUserForm = (initialData: User) => {
     const { mutate: updateProfileMutate } = useUpdateProfileMutation();
 
     const form = useForm<UserFormData>({
         resolver: zodResolver(userFormSchema),
         defaultValues: {
-            phone: "",
-            firstname: "",
-            middlename: "",
-            lastname: "",
-            email: "",
-            city: "",
+            phone: initialData.phone,
+            firstname: initialData.firstname ?? "",
+            middlename: initialData.middlename ?? "",
+            lastname: initialData.lastname ?? "",
+            email: initialData.email ?? "",
+            city: initialData.city ?? "",
         },
     });
-
-    useEffect(() => {
-        if (data?.data?.user) {
-            form.reset({
-                phone: data.data.user.phone || "",
-                firstname: data.data.user.firstname || "",
-                middlename: data.data.user.middlename || "",
-                lastname: data.data.user.lastname || "",
-                email: data.data.user.email || "",
-                city: data.data.user.city || "",
-            });
-        }
-    }, [data, form]);
 
     const onFormSubmit = (values: UserFormData) => {
         updateProfileMutate(
@@ -64,8 +48,5 @@ export const useUserForm = () => {
     return {
         form,
         onSubmit: form.handleSubmit(onFormSubmit),
-        isLoading,
-        isError,
-        error,
     };
 };

@@ -1,5 +1,3 @@
-"use client";
-
 import { I18nText } from "@/components/shared/I18nText/I18nText";
 import {
     Button,
@@ -15,25 +13,23 @@ import { useI18n } from "@/lib/contexts/i18n";
 
 import { useUserForm } from "../(hooks)/useUserForm";
 
-export const UserForm = () => {
-    const intl = useI18n();
-    const { form, onSubmit, isLoading, isError, error } = useUserForm();
+export interface User {
+    _id: string;
+    phone: string;
+    city?: string;
+    email?: string;
+    firstname?: string;
+    lastname?: string;
+    middlename?: string;
+}
 
-    if (isLoading)
-        return (
-            <div>
-                <I18nText id="page.profile.loading" />
-            </div>
-        );
-    if (isError)
-        return (
-            <div>
-                <I18nText
-                    id="page.profile.error"
-                    values={{ error: error?.message || "Неизвестная ошибка" }}
-                />
-            </div>
-        );
+interface UserFormProps {
+    initialData: User;
+}
+
+export const UserForm = ({ initialData }: UserFormProps) => {
+    const intl = useI18n();
+    const { form, onSubmit } = useUserForm(initialData);
 
     return (
         <Form {...form}>
