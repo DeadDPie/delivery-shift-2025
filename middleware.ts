@@ -7,7 +7,7 @@ export function middleware(req: NextRequest) {
     const token = req.cookies.get("token")?.value;
 
     if (!token && !req.nextUrl.pathname.startsWith("/auth")) {
-        const loginUrl = new URL(ROUTES.AUTH, req.url);
+        const loginUrl = new URL("/auth", req.url);
         return NextResponse.redirect(loginUrl);
     }
 
@@ -15,5 +15,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: [ROUTES.ROOT, ROUTES.PROFILE],
+    matcher: ["/", "/profile"],
 };
