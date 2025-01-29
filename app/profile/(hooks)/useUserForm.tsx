@@ -3,28 +3,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getCookie } from "cookies-next";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import { useEffect, useState } from "react";
 
+import { UserFormData, userFormSchema } from "../(constants)/userFormSchemas";
 import { useSessionQuery } from "./useSessionQuery";
 import { useUpdateProfileQuery } from "./useUpdateProfileQuery";
-
-const userFormSchema = z.object({
-    phone: z
-        .string()
-        .min(10, "Номер телефона должен содержать не менее 10 цифр"),
-    firstname: z.string().min(2, "Имя должно содержать не менее 2 символов"),
-    middlename: z.string().optional(),
-    lastname: z.string().min(2, "Фамилия должна содержать не менее 2 символов"),
-    email: z.string().email("Неверный формат email").optional(),
-    city: z
-        .string()
-        .min(2, "Название города должно содержать не менее 2 символов")
-        .optional(),
-});
-
-export type UserFormData = z.infer<typeof userFormSchema>;
 
 export const useUserForm = () => {
     const [token, setToken] = useState("");
