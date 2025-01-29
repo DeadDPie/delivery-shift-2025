@@ -11,10 +11,12 @@ import {
     FormMessage,
     Input,
 } from "@/components/ui";
+import { useI18n } from "@/lib/contexts/i18n";
 
 import { useUserForm } from "../(hooks)/useUserForm";
 
 export const UserForm = () => {
+    const intl = useI18n();
     const { form, onSubmit, isLoading, isError, error } = useUserForm();
 
     if (isLoading)
@@ -43,10 +45,15 @@ export const UserForm = () => {
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>
-                                    <I18nText id="page.profile.form.phone" />
+                                    <I18nText id="page.phone" />
                                 </FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Телефон" {...field} />
+                                    <Input
+                                        placeholder={intl.formatMessage({
+                                            id: "page.phone",
+                                        })}
+                                        {...field}
+                                    />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -61,7 +68,12 @@ export const UserForm = () => {
                                     <I18nText id="page.profile.form.name" />
                                 </FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Имя" {...field} />
+                                    <Input
+                                        placeholder={intl.formatMessage({
+                                            id: "page.profile.form.name",
+                                        })}
+                                        {...field}
+                                    />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -76,7 +88,12 @@ export const UserForm = () => {
                                     <I18nText id="page.profile.form.middlename" />
                                 </FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Отчество" {...field} />
+                                    <Input
+                                        placeholder={intl.formatMessage({
+                                            id: "page.profile.form.middlename",
+                                        })}
+                                        {...field}
+                                    />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -91,7 +108,12 @@ export const UserForm = () => {
                                     <I18nText id="page.profile.form.lastname" />
                                 </FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Фамилия" {...field} />
+                                    <Input
+                                        placeholder={intl.formatMessage({
+                                            id: "page.profile.form.lastname",
+                                        })}
+                                        {...field}
+                                    />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -107,7 +129,9 @@ export const UserForm = () => {
                                 </FormLabel>
                                 <FormControl>
                                     <Input
-                                        placeholder="Email"
+                                        placeholder={intl.formatMessage({
+                                            id: "page.profile.form.email",
+                                        })}
                                         type="email"
                                         {...field}
                                     />
@@ -125,7 +149,12 @@ export const UserForm = () => {
                                     <I18nText id="page.profile.form.city" />
                                 </FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Город" {...field} />
+                                    <Input
+                                        placeholder={intl.formatMessage({
+                                            id: "page.profile.form.city",
+                                        })}
+                                        {...field}
+                                    />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>

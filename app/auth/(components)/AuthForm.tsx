@@ -1,5 +1,6 @@
 "use client";
 
+import { I18nText } from "@/components/shared/I18nText/I18nText";
 import {
     Button,
     Form,
@@ -11,11 +12,13 @@ import {
     FormMessage,
     Input,
 } from "@/components/ui";
+import { useI18n } from "@/lib/contexts/i18n";
 
 import { useAuthForm } from "../(hooks)/useAuthForm";
 
 export const AuthForm = () => {
     const { form, isOtpStage, onSubmit } = useAuthForm();
+    const intl = useI18n();
 
     return (
         <Form {...form}>
@@ -25,14 +28,17 @@ export const AuthForm = () => {
                     name="phone"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Авторизация</FormLabel>
+                            <FormLabel>
+                                <I18nText id="page.auth.loginForm.title" />
+                            </FormLabel>
                             <FormDescription>
-                                Введите номер телефона для входа в личный
-                                кабинет
+                                <I18nText id="page.auth.loginForm.description.phone" />
                             </FormDescription>
                             <FormControl>
                                 <Input
-                                    placeholder="Телефон"
+                                    placeholder={intl.formatMessage({
+                                        id: "page.phone",
+                                    })}
                                     {...field}
                                     onChange={(e) => {
                                         field.onChange(
@@ -41,7 +47,9 @@ export const AuthForm = () => {
                                     }}
                                 />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage>
+                                <I18nText id="page.auth.loginForm.error.phone" />
+                            </FormMessage>
                         </FormItem>
                     )}
                 />
@@ -54,7 +62,9 @@ export const AuthForm = () => {
                             <FormItem>
                                 <FormControl>
                                     <Input
-                                        placeholder="Проверочный код"
+                                        placeholder={intl.formatMessage({
+                                            id: "page.auth.loginForm.placeholder.otp",
+                                        })}
                                         {...field}
                                         onChange={(e) => {
                                             field.onChange(
@@ -66,14 +76,20 @@ export const AuthForm = () => {
                                         }}
                                     />
                                 </FormControl>
-                                <FormMessage />
+                                <FormMessage>
+                                    <I18nText id="page.auth.loginForm.error.otp" />
+                                </FormMessage>
                             </FormItem>
                         )}
                     />
                 )}
 
                 <Button type="submit">
-                    {isOtpStage ? "Войти" : "Продолжить"}
+                    {isOtpStage ? (
+                        <I18nText id="page.auth.loginForm.button.login" />
+                    ) : (
+                        <I18nText id="page.auth.loginForm.button.continue" />
+                    )}
                 </Button>
             </form>
         </Form>
