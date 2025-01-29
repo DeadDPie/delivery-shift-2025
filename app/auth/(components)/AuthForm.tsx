@@ -57,7 +57,7 @@ export const AuthForm = () => {
                 )}
 
                 <Button type="submit">
-                    {isOtpStage ? "Войти" : "Продолжить"}{" "}
+                    {isOtpStage ? "Войти" : "Продолжить"}
                 </Button>
             </form>
         </Form>

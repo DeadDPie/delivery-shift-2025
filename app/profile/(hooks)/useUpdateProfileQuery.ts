@@ -2,7 +2,7 @@ import {
     UpdateProfileParams,
     UpdateProfileResponse,
     updateUserProfile,
-} from "@/lib/requests/userRequests";
+} from "@/lib/api/requests/userRequests";
 import { useMutation } from "@tanstack/react-query";
 
 export const useUpdateProfileQuery = () => {

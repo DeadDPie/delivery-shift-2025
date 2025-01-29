@@ -7,7 +7,7 @@ import { z } from "zod";
 import { useState } from "react";
 
 import { otpFormScheme, phoneFormScheme } from "../(constants)/formSchemas";
-import { usePostOtpQuery } from "../(hooks)/usePostOtpQuery";
+import { usePostOtpQuery } from "./usePostOtpQuery";
 import { usePostSignInQuery } from "./usePostSignInQuery ";
 
 export const useAuthForm = () => {

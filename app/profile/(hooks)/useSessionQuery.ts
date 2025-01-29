@@ -1,4 +1,4 @@
-import { fetchSession } from "@/lib/requests/sessionRequests";
+import { fetchSession } from "@/lib/api/requests/sessionRequests";
 import { useQuery } from "@tanstack/react-query";
 
 export const useSessionQuery = (token: string) => {

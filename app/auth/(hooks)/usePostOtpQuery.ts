@@ -2,7 +2,7 @@ import {
     OtpRequestParams,
     OtpResponse,
     postOtp,
-} from "@/lib/requests/authRequests";
+} from "@/lib/api/requests/authRequests";
 import { useMutation } from "@tanstack/react-query";
 
 export const usePostOtpQuery = () => {
