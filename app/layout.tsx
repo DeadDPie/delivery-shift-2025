@@ -1,4 +1,5 @@
 import { ReactQueryClientProvider } from "@/lib/contexts/ReactQueryClientProvider";
+import { I18nProvider } from "@/lib/contexts/i18n";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
@@ -17,10 +18,12 @@ interface RootLayoutProp {
 
 export default function RootLayout({ children }: RootLayoutProp) {
     return (
-        <ReactQueryClientProvider>
-            <html lang="en">
-                <body className={inter.className}>{children}</body>
-            </html>
-        </ReactQueryClientProvider>
+        <I18nProvider>
+            <ReactQueryClientProvider>
+                <html lang="en">
+                    <body className={inter.className}>{children}</body>
+                </html>
+            </ReactQueryClientProvider>
+        </I18nProvider>
     );
 }
