@@ -1,14 +1,13 @@
-import { SessionResponse, fetchSession } from "@/lib/api/requests";
-import { UseQueryOptions, useQuery } from "@tanstack/react-query";
+import { FetchSessionParams, fetchSession } from "@/lib/api/requests";
+import { useQuery } from "@tanstack/react-query";
 
 export const useSessionQuery = (
-    token: string,
-    options?: UseQueryOptions<SessionResponse, Error>
-) => {
-    return useQuery({
-        queryKey: ["session", token],
-        queryFn: () => fetchSession(token),
-        enabled: !!token,
-        ...options,
+    params: FetchSessionParams,
+    settings?: QuerySettings<typeof fetchSession>
+) =>
+    useQuery({
+        queryKey: ["session", params.token],
+        queryFn: () => fetchSession({ params, config: settings?.config }),
+        enabled: !!params.token,
+        ...settings?.options,
     });
-};

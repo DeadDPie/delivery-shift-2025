@@ -1,4 +1,4 @@
 export * from "./otpRequest";
-export * from "./sessionRequests";
+export * from "./fetchSessionRequests";
 export * from "./postSignInRequest";
 export * from "./updateUserProfileRequest";

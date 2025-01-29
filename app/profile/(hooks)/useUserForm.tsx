@@ -12,7 +12,7 @@ import { useUpdateProfileMutation } from "./useUpdateProfileMutation";
 
 export const useUserForm = () => {
     const [token, setToken] = useState("");
-    const { data, isLoading, isError, error } = useSessionQuery(token);
+    const { data, isLoading, isError, error } = useSessionQuery({ token });
     const { mutate: updateProfileMutate } = useUpdateProfileMutation();
 
     const form = useForm<UserFormData>({
@@ -31,14 +31,15 @@ export const useUserForm = () => {
         const cookieToken = getCookie("token")?.toString() || "";
         setToken(cookieToken);
 
-        if (data?.user) {
+        // Проверяем, что data существует, затем получаем user из data.data
+        if (data?.data?.user) {
             form.reset({
-                phone: data.user.phone || "",
-                firstname: data.user.firstname || "",
-                middlename: data.user.middlename || "",
-                lastname: data.user.lastname || "",
-                email: data.user.email || "",
-                city: data.user.city || "",
+                phone: data.data.user.phone || "",
+                firstname: data.data.user.firstname || "",
+                middlename: data.data.user.middlename || "",
+                lastname: data.data.user.lastname || "",
+                email: data.data.user.email || "",
+                city: data.data.user.city || "",
             });
         }
     }, [data, form]);
