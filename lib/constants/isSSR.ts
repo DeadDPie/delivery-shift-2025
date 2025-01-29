@@ -1,1 +1,1 @@
-export const isSSR = typeof window === "undefined";
+export const iS_SSR = typeof window === "undefined";

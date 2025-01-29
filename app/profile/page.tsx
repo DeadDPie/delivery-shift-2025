@@ -1,4 +1,3 @@
-'use client'
 import { I18nText } from "@/components/shared/I18nText/I18nText";
 
 import { UserForm } from "./(components)/UserForm";
