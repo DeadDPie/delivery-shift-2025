@@ -1,17 +1,13 @@
-"use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
-import { getCookie } from "cookies-next";
 import { useForm } from "react-hook-form";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { UserFormData, userFormSchema } from "../(constants)/userFormSchemas";
 import { useSessionQuery } from "./useSessionQuery";
 import { useUpdateProfileMutation } from "./useUpdateProfileMutation";
 
 export const useUserForm = () => {
-    const [token, setToken] = useState("");
     const { data, isLoading, isError, error } = useSessionQuery();
     const { mutate: updateProfileMutate } = useUpdateProfileMutation();
 
@@ -28,9 +24,6 @@ export const useUserForm = () => {
     });
 
     useEffect(() => {
-        const cookieToken = getCookie("token")?.toString() || "";
-        setToken(cookieToken);
-
         if (data?.data?.user) {
             form.reset({
                 phone: data.data.user.phone || "",
