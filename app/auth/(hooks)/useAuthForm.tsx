@@ -8,8 +8,8 @@ import { z } from "zod";
 import { useState } from "react";
 
 import { otpFormScheme, phoneFormScheme } from "../(constants)/formSchemas";
-import { usePostOtpMutation } from "./usePostOtpQuery";
-import { usePostSignInMutation } from "./usePostSignInQuery ";
+import { usePostOtpMutation } from "./usePostOtpMutation";
+import { usePostSignInMutation } from "./usePostSignInMutation";
 
 export const useAuthForm = () => {
     const router = useRouter();

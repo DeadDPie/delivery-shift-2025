@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 
 import { UserFormData, userFormSchema } from "../(constants)/userFormSchemas";
 import { useSessionQuery } from "./useSessionQuery";
-import { useUpdateProfileMutation } from "./useUpdateProfileQuery";
+import { useUpdateProfileMutation } from "./useUpdateProfileMutation";
 
 export const useUserForm = () => {
     const [token, setToken] = useState("");
