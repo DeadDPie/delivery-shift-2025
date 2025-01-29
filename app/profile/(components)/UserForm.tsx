@@ -1,5 +1,6 @@
 "use client";
 
+import { I18nText } from "@/components/shared/I18nText/I18nText";
 import {
     Button,
     Form,
@@ -16,9 +17,21 @@ import { useUserForm } from "../(hooks)/useUserForm";
 export const UserForm = () => {
     const { form, onSubmit, isLoading, isError, error } = useUserForm();
 
-    if (isLoading) return <div>Загрузка данных о пользователе...</div>;
+    if (isLoading)
+        return (
+            <div>
+                <I18nText id="page.profile.loading" />
+            </div>
+        );
     if (isError)
-        return <div>Ошибка: {error?.message || "Неизвестная ошибка"}</div>;
+        return (
+            <div>
+                <I18nText
+                    id="page.profile.error"
+                    values={{ error: error?.message || "Неизвестная ошибка" }}
+                />
+            </div>
+        );
 
     return (
         <Form {...form}>
@@ -29,7 +42,9 @@ export const UserForm = () => {
                         name="phone"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Телефон</FormLabel>
+                                <FormLabel>
+                                    <I18nText id="page.profile.form.phone" />
+                                </FormLabel>
                                 <FormControl>
                                     <Input placeholder="Телефон" {...field} />
                                 </FormControl>
@@ -42,7 +57,9 @@ export const UserForm = () => {
                         name="firstname"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Имя</FormLabel>
+                                <FormLabel>
+                                    <I18nText id="page.profile.form.name" />
+                                </FormLabel>
                                 <FormControl>
                                     <Input placeholder="Имя" {...field} />
                                 </FormControl>
@@ -55,7 +72,9 @@ export const UserForm = () => {
                         name="middlename"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Отчество</FormLabel>
+                                <FormLabel>
+                                    <I18nText id="page.profile.form.middlename" />
+                                </FormLabel>
                                 <FormControl>
                                     <Input placeholder="Отчество" {...field} />
                                 </FormControl>
@@ -68,7 +87,9 @@ export const UserForm = () => {
                         name="lastname"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Фамилия</FormLabel>
+                                <FormLabel>
+                                    <I18nText id="page.profile.form.lastname" />
+                                </FormLabel>
                                 <FormControl>
                                     <Input placeholder="Фамилия" {...field} />
                                 </FormControl>
@@ -81,7 +102,9 @@ export const UserForm = () => {
                         name="email"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Email</FormLabel>
+                                <FormLabel>
+                                    <I18nText id="page.profile.form.email" />
+                                </FormLabel>
                                 <FormControl>
                                     <Input
                                         placeholder="Email"
@@ -98,7 +121,9 @@ export const UserForm = () => {
                         name="city"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Город</FormLabel>
+                                <FormLabel>
+                                    <I18nText id="page.profile.form.city" />
+                                </FormLabel>
                                 <FormControl>
                                     <Input placeholder="Город" {...field} />
                                 </FormControl>
@@ -108,7 +133,7 @@ export const UserForm = () => {
                     />
                 </div>
                 <Button type="submit" className="w-full">
-                    Обновить данные
+                    <I18nText id="page.profile.form.submit" />
                 </Button>
             </form>
         </Form>

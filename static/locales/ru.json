@@ -1,5 +1,14 @@
 {
     "app.title": "Delivery",
     "page.auth.loginForm.title": "Авторизация",
-    "profile": "Профиль"
+    "page.profile.title": "Профиль",
+    "page.profile.form.phone": "Телефон",
+    "page.profile.form.name": "Имя",
+    "page.profile.form.middlename": "Отчество",
+    "page.profile.form.lastname": "Фамилия",
+    "page.profile.form.email": "Электронная почта",
+    "page.profile.form.city": "Город",
+    "page.profile.form.submit": "Обновить данные",
+    "page.profile.loading": "Загрузка данных о пользователе...",
+    "page.profile.error": "Ошибка: {{error}}"
 }
