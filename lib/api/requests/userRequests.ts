@@ -1,5 +1,3 @@
-import { getCookie } from "cookies-next/server";
-
 import { instance } from "../instance";
 
 export interface UpdateProfileParams {

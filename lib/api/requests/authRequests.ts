@@ -9,7 +9,10 @@ export interface OtpResponse {
     retryDelay: number;
 }
 
-export const postOtp = async ({ phone }: OtpRequestParams) => {
-    const response = await instance.post<OtpResponse>("/auth/otp", { phone });
+export const postOtp = async (params: OtpRequestParams) => {
+    const response = await instance.post<OtpResponse>(
+        "/auth/otp",
+        params.phone
+    );
     return response.data;
 };

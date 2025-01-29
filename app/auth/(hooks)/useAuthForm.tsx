@@ -7,15 +7,15 @@ import { z } from "zod";
 import { useState } from "react";
 
 import { otpFormScheme, phoneFormScheme } from "../(constants)/formSchemas";
-import { usePostOtpQuery } from "./usePostOtpQuery";
-import { usePostSignInQuery } from "./usePostSignInQuery ";
+import { usePostOtpMutation } from "./usePostOtpQuery";
+import { usePostSignInMutation } from "./usePostSignInQuery ";
 
 export const useAuthForm = () => {
     const router = useRouter();
 
     const [isOtpStage, setOtpStage] = useState(false);
-    const { mutate: postOtpMutate } = usePostOtpQuery();
-    const { mutate: postSignInMutate } = usePostSignInQuery();
+    const postOtpQuery = usePostOtpMutation();
+    const postSignInQuery = usePostSignInMutation();
 
     const form = useForm<
         z.infer<typeof phoneFormScheme | typeof otpFormScheme>
@@ -31,14 +31,14 @@ export const useAuthForm = () => {
         values: z.infer<typeof phoneFormScheme | typeof otpFormScheme>
     ) => {
         if ("phone" in values && !isOtpStage) {
-            postOtpMutate(
+            postOtpQuery.mutate(
                 { phone: values.phone },
                 {
                     onSuccess: () => setOtpStage(true),
                 }
             );
         } else if ("otp" in values) {
-            postSignInMutate(
+            postSignInQuery.mutate(
                 { phone: form.getValues("phone"), code: values.otp },
                 {
                     onSuccess: (response) => {

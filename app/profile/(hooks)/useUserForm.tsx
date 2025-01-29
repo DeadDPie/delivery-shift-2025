@@ -8,12 +8,12 @@ import { useEffect, useState } from "react";
 
 import { UserFormData, userFormSchema } from "../(constants)/userFormSchemas";
 import { useSessionQuery } from "./useSessionQuery";
-import { useUpdateProfileQuery } from "./useUpdateProfileQuery";
+import { useUpdateProfileMutation } from "./useUpdateProfileQuery";
 
 export const useUserForm = () => {
     const [token, setToken] = useState("");
     const { data, isLoading, isError, error } = useSessionQuery(token);
-    const { mutate: updateProfileMutate } = useUpdateProfileQuery();
+    const { mutate: updateProfileMutate } = useUpdateProfileMutation();
 
     const form = useForm<UserFormData>({
         resolver: zodResolver(userFormSchema),
