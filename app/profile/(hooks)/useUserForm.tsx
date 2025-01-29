@@ -12,7 +12,7 @@ import { useUpdateProfileMutation } from "./useUpdateProfileMutation";
 
 export const useUserForm = () => {
     const [token, setToken] = useState("");
-    const { data, isLoading, isError, error } = useSessionQuery({ token });
+    const { data, isLoading, isError, error } = useSessionQuery();
     const { mutate: updateProfileMutate } = useUpdateProfileMutation();
 
     const form = useForm<UserFormData>({
@@ -31,7 +31,6 @@ export const useUserForm = () => {
         const cookieToken = getCookie("token")?.toString() || "";
         setToken(cookieToken);
 
-        // Проверяем, что data существует, затем получаем user из data.data
         if (data?.data?.user) {
             form.reset({
                 phone: data.data.user.phone || "",
@@ -55,11 +54,6 @@ export const useUserForm = () => {
                         lastname: values.lastname,
                         email: values.email,
                         city: values.city,
-                    },
-                },
-                config: {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
                     },
                 },
             },

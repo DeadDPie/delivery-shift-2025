@@ -1,10 +1,6 @@
 import { instance } from "../instance";
 
-export interface FetchSessionParams {
-    token: string;
-}
-
-export type FetchSessionRequestConfig = RequestConfig<FetchSessionParams>;
+export type FetchSessionRequestConfig = RequestConfig;
 
 export interface FetchSessionResponse {
     success: boolean;
@@ -20,13 +16,7 @@ export interface FetchSessionResponse {
     };
 }
 
-export const fetchSession = async ({
-    params,
-    config,
-}: FetchSessionRequestConfig) =>
+export const fetchSession = async ({ config }: FetchSessionRequestConfig) =>
     instance.get<FetchSessionResponse>("/users/session", {
-        headers: {
-            Authorization: `Bearer ${params.token}`,
-        },
         ...config,
     });

@@ -1,4 +1,8 @@
 import axios from "axios";
+import { getCookie as getCookieClient } from "cookies-next/client";
+import { getCookie as getCookieServer } from "cookies-next/server";
+
+import { isSSR } from "../constants/isSSR";
 
 export const instance = axios.create({
     baseURL: "https://shift-intensive.ru/api",
@@ -7,3 +11,23 @@ export const instance = axios.create({
         "Content-Type": "application/json",
     },
 });
+
+instance.interceptors.request.use(
+    (config) => {
+        let token: string | undefined;
+
+        if (isSSR) {
+            token = getCookieServer("token")?.toString() || "";
+        } else {
+            token = getCookieClient("token")?.toString() || "";
+        }
+
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
