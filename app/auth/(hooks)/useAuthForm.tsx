@@ -28,7 +28,7 @@ export const useAuthForm = () => {
         },
     });
 
-    const onSubmit = (
+    const onFromSubmit = (
         values: z.infer<typeof phoneFormScheme | typeof otpFormScheme>
     ) => {
         if ("phone" in values && !isOtpStage) {
@@ -61,7 +61,7 @@ export const useAuthForm = () => {
     return {
         form,
         isOtpStage,
-        onSubmit,
+        onSubmit: form.handleSubmit(onFromSubmit),
         setOtpStage,
     };
 };

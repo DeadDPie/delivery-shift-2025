@@ -43,7 +43,7 @@ export const useUserForm = () => {
         }
     }, [data, form]);
 
-    const onSubmit = (values: UserFormData) => {
+    const onFormSubmit = (values: UserFormData) => {
         updateProfileMutate(
             {
                 phone: values.phone,
@@ -68,7 +68,7 @@ export const useUserForm = () => {
     };
     return {
         form,
-        onSubmit,
+        onSubmit: form.handleSubmit(onFormSubmit),
         isLoading,
         isError,
         error,
