@@ -1,15 +1,15 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
+    Button,
     Form,
     FormControl,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+    Input,
+} from "@/components/ui";
 
 import { useUserForm } from "../(hooks)/useUserForm";
 
