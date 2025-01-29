@@ -8,6 +8,7 @@ import { z } from "zod";
 import { useEffect, useState } from "react";
 
 import { useSessionQuery } from "./useSessionQuery";
+import { useUpdateProfileQuery } from "./useUpdateProfileQuery";
 
 const userFormSchema = z.object({
     phone: z
@@ -16,10 +17,11 @@ const userFormSchema = z.object({
     firstname: z.string().min(2, "Имя должно содержать не менее 2 символов"),
     middlename: z.string().optional(),
     lastname: z.string().min(2, "Фамилия должна содержать не менее 2 символов"),
-    email: z.string().email("Неверный формат email"),
+    email: z.string().email("Неверный формат email").optional(),
     city: z
         .string()
-        .min(2, "Название города должно содержать не менее 2 символов"),
+        .min(2, "Название города должно содержать не менее 2 символов")
+        .optional(),
 });
 
 export type UserFormData = z.infer<typeof userFormSchema>;
@@ -27,6 +29,7 @@ export type UserFormData = z.infer<typeof userFormSchema>;
 export const useUserForm = () => {
     const [token, setToken] = useState("");
     const { data, isLoading, isError, error } = useSessionQuery(token);
+    const { mutate: updateProfileMutate } = useUpdateProfileQuery();
 
     const form = useForm<UserFormData>({
         resolver: zodResolver(userFormSchema),
@@ -57,10 +60,28 @@ export const useUserForm = () => {
     }, [data, form]);
 
     const onSubmit = (values: UserFormData) => {
-        console.log("Обновленные данные пользователя:", values);
-        // Здесь вы можете добавить логику для отправки обновленных данных на сервер
+        updateProfileMutate(
+            {
+                phone: values.phone,
+                profile: {
+                    firstname: values.firstname,
+                    middlename: values.middlename,
+                    lastname: values.lastname,
+                    email: values.email,
+                    city: values.city,
+                },
+                token: token,
+            },
+            {
+                onSuccess: (response) => {
+                    console.log("Профиль обновлен:", response);
+                },
+                onError: (error) => {
+                    console.error("Ошибка при обновлении профиля:", error);
+                },
+            }
+        );
     };
-
     return {
         form,
         onSubmit,

@@ -50,7 +50,7 @@ export const useAuthForm = () => {
                             sameSite: "strict",
                             path: "/",
                         });
-                        router.push("/");
+                        router.push("/profile");
                     },
                 }
             );
