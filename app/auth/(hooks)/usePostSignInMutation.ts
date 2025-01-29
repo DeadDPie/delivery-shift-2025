@@ -1,15 +1,15 @@
-import {
-    SignInRequestParams,
-    SignInResponse,
-    postSignIn,
-} from "@/lib/api/requests";
-import { UseMutationOptions, useMutation } from "@tanstack/react-query";
+import { PostSignInRequestConfig, postSignIn } from "@/lib/api/requests";
+import { useMutation } from "@tanstack/react-query";
 
 export const usePostSignInMutation = (
-    options?: UseMutationOptions<SignInResponse, Error, SignInRequestParams>
-) => {
-    return useMutation<SignInResponse, Error, SignInRequestParams>({
-        mutationFn: postSignIn,
-        ...options,
+    settings?: MutationSettings<PostSignInRequestConfig, typeof postSignIn>
+) =>
+    useMutation({
+        mutationKey: ["postUsersSignIn"],
+        mutationFn: ({ params, config }) =>
+            postSignIn({
+                params,
+                config: { ...settings?.config, ...config },
+            }),
+        ...settings?.options,
     });
-};

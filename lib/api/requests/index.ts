@@ -1,4 +1,4 @@
 export * from "./authRequests";
 export * from "./sessionRequests";
-export * from "./signInRequest";
+export * from "./postSignInRequest";
 export * from "./userRequests";
