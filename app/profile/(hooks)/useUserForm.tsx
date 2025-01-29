@@ -46,15 +46,21 @@ export const useUserForm = () => {
     const onFormSubmit = (values: UserFormData) => {
         updateProfileMutate(
             {
-                phone: values.phone,
-                profile: {
-                    firstname: values.firstname,
-                    middlename: values.middlename,
-                    lastname: values.lastname,
-                    email: values.email,
-                    city: values.city,
+                params: {
+                    phone: values.phone,
+                    profile: {
+                        firstname: values.firstname,
+                        middlename: values.middlename,
+                        lastname: values.lastname,
+                        email: values.email,
+                        city: values.city,
+                    },
                 },
-                token: token,
+                config: {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
             },
             {
                 onSuccess: (response) => {
@@ -66,6 +72,7 @@ export const useUserForm = () => {
             }
         );
     };
+
     return {
         form,
         onSubmit: form.handleSubmit(onFormSubmit),

@@ -33,14 +33,19 @@ export const useAuthForm = () => {
     ) => {
         if ("phone" in values && !isOtpStage) {
             postOtpQuery.mutate(
-                { phone: values.phone },
+                { params: { phone: values.phone } }, // Обернули в params
                 {
                     onSuccess: () => setOtpStage(true),
                 }
             );
         } else if ("otp" in values) {
             postSignInQuery.mutate(
-                { phone: form.getValues("phone"), code: values.otp },
+                {
+                    params: {
+                        phone: form.getValues("phone"),
+                        code: values.otp,
+                    },
+                },
                 {
                     onSuccess: (response) => {
                         console.log("User authenticated:", response);
