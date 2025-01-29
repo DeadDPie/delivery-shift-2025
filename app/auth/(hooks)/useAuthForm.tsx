@@ -1,3 +1,4 @@
+import { ROUTES } from "@/lib/constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
@@ -50,7 +51,7 @@ export const useAuthForm = () => {
                             sameSite: "strict",
                             path: "/",
                         });
-                        router.push("/profile");
+                        router.push(ROUTES.PROFILE);
                     },
                 }
             );
