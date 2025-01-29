@@ -1,19 +1,21 @@
 import {
-    UpdateProfileParams,
-    UpdateProfileResponse,
+    UpdateProfileRequestConfig,
     updateUserProfile,
 } from "@/lib/api/requests";
-import { UseMutationOptions, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 export const useUpdateProfileMutation = (
-    options?: UseMutationOptions<
-        UpdateProfileResponse,
-        Error,
-        UpdateProfileParams
+    settings?: MutationSettings<
+        UpdateProfileRequestConfig,
+        typeof updateUserProfile
     >
-) => {
-    return useMutation<UpdateProfileResponse, Error, UpdateProfileParams>({
-        mutationFn: updateUserProfile,
-        ...options,
+) =>
+    useMutation({
+        mutationKey: ["updateUserProfile"],
+        mutationFn: ({ params, config }) =>
+            updateUserProfile({
+                params,
+                config: { ...settings?.config, ...config },
+            }),
+        ...settings?.options,
     });
-};

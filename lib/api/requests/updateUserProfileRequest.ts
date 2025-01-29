@@ -1,6 +1,6 @@
 import { instance } from "../instance";
 
-export interface UpdateProfileParams {
+export interface UpdateProfileRequestParams {
     phone: string;
     profile: {
         firstname: string;
@@ -9,7 +9,6 @@ export interface UpdateProfileParams {
         email?: string;
         city?: string;
     };
-    token: string;
 }
 
 export interface UpdateProfileResponse {
@@ -20,22 +19,17 @@ export interface UpdateProfileResponse {
     };
 }
 
+export type UpdateProfileRequestConfig =
+    RequestConfig<UpdateProfileRequestParams>;
+
 export const updateUserProfile = async ({
-    phone,
-    profile,
-    token,
-}: UpdateProfileParams) => {
+    params,
+    config,
+}: UpdateProfileRequestConfig) => {
     const response = await instance.patch<UpdateProfileResponse>(
         "/users/profile",
-        {
-            phone,
-            profile,
-        },
-        {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        }
+        params,
+        config
     );
     return response.data;
 };
