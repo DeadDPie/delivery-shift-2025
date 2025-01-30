@@ -9,8 +9,11 @@ import {
     DeliveryFormSchema,
 } from "../(constants)/DeliveryFormSchema";
 import { useDeliveryPointsQuery } from "./useDeliveryPointsQuery ";
+import { usePostDeliveryCalcMutation } from "./usePostDeliveryCalcMutation";
 
 export function useDeliveryForm() {
+    const postDeliveryCalc = usePostDeliveryCalcMutation();
+
     const form = useForm<DeliveryFormData>({
         resolver: zodResolver(DeliveryFormSchema),
         defaultValues: {
@@ -54,6 +57,17 @@ export function useDeliveryForm() {
                 longitude: data.destinationCity.longitude,
             },
         };
+        postDeliveryCalc.mutate(
+            { params: formattedData },
+            {
+                onSuccess: (response) => {
+                    console.log("Успешно:", response);
+                },
+                onError: (error) => {
+                    console.error("Ошибка:", error);
+                },
+            }
+        );
 
         console.log("Форма отправлена:", formattedData);
     }

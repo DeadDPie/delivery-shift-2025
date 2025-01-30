@@ -98,7 +98,6 @@ export function CountDeliveryForm() {
                     name="packageSize"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Размер посылки</FormLabel>
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Button variant="outline">

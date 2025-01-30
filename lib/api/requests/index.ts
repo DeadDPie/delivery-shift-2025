@@ -4,3 +4,4 @@ export * from "./postSignInRequest";
 export * from "./updateUserProfileRequest";
 export * from "./fetchDeliveryPoints ";
 export * from "./fetchPackageTypes";
+export * from "./postDeliveryCalc";
