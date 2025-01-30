@@ -7,11 +7,31 @@ import { useState } from "react";
 
 import { usePackageTypesQuery } from "../(hooks)/usePackageTypesQuery";
 
-export function PackageTypesList({ setSelectedPackage }: any) {
+// Определяем тип для объекта "посылка"
+export type PackageType = {
+    id: string;
+    name: string;
+    length: number;
+    width: number;
+    height: number;
+    weight: number;
+};
+
+type PackageTypesListProps = {
+    setSelectedPackage: (packageType: PackageType) => void;
+};
+
+export function PackageTypesList({
+    setSelectedPackage,
+}: PackageTypesListProps) {
     const { data: packageTypesResponse, isLoading } = usePackageTypesQuery();
     const [selectedToggleValue, setSelectedToggleValue] = useState<
         string | undefined
     >(undefined);
+    const [length, setLength] = useState<number>(0);
+    const [width, setWidth] = useState<number>(0);
+    const [height, setHeight] = useState<number>(0);
+    const [weight, setWeight] = useState<number>(0);
 
     if (isLoading) {
         return <p>Загрузка типов посылок...</p>;
@@ -24,7 +44,7 @@ export function PackageTypesList({ setSelectedPackage }: any) {
             <ToggleGroup
                 type="single"
                 value={selectedToggleValue}
-                onValueChange={(value) => setSelectedToggleValue(value)} // Update state on toggle change
+                onValueChange={(value) => setSelectedToggleValue(value)}
             >
                 <ToggleGroupItem
                     value="approximate"
@@ -36,11 +56,12 @@ export function PackageTypesList({ setSelectedPackage }: any) {
                     Точные
                 </ToggleGroupItem>
             </ToggleGroup>
+
             {selectedToggleValue === "approximate" && (
                 <ul>
-                    {packageTypes.map((packageType) => (
+                    {packageTypes.map((packageType: PackageType) => (
                         <li
-                            onClick={() => setSelectedPackage(packageType.name)}
+                            onClick={() => setSelectedPackage(packageType)}
                             key={packageType.id}
                             className="cursor-pointer border p-2 m-2"
                         >
@@ -70,6 +91,10 @@ export function PackageTypesList({ setSelectedPackage }: any) {
                                 type="number"
                                 placeholder="Введите длину"
                                 className="w-2/3"
+                                value={length}
+                                onChange={(e) =>
+                                    setLength(Number(e.target.value))
+                                }
                             />
                         </div>
 
@@ -82,6 +107,10 @@ export function PackageTypesList({ setSelectedPackage }: any) {
                                 type="number"
                                 placeholder="Введите ширину"
                                 className="w-2/3"
+                                value={width}
+                                onChange={(e) =>
+                                    setWidth(Number(e.target.value))
+                                }
                             />
                         </div>
 
@@ -97,6 +126,10 @@ export function PackageTypesList({ setSelectedPackage }: any) {
                                 type="number"
                                 placeholder="Введите высоту"
                                 className="w-2/3"
+                                value={height}
+                                onChange={(e) =>
+                                    setHeight(Number(e.target.value))
+                                }
                             />
                         </div>
 
@@ -112,11 +145,25 @@ export function PackageTypesList({ setSelectedPackage }: any) {
                                 type="number"
                                 placeholder="Введите вес"
                                 className="w-2/3"
+                                value={weight}
+                                onChange={(e) =>
+                                    setWeight(Number(e.target.value))
+                                }
                             />
                         </div>
+
                         <Button
                             type="button"
-                            onClick={() => setSelectedPackage("Свой размер")}
+                            onClick={() =>
+                                setSelectedPackage({
+                                    id: "custom",
+                                    name: "Свой размер",
+                                    length,
+                                    width,
+                                    height,
+                                    weight,
+                                })
+                            }
                         >
                             Подтвердить
                         </Button>

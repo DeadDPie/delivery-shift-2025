@@ -21,7 +21,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { DeliveryPoint } from "@/lib/api/requests";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -29,30 +28,80 @@ import { z } from "zod";
 import { useState } from "react";
 
 import { useDeliveryPointsQuery } from "../(hooks)/useDeliveryPointsQuery ";
-import { PackageTypesList } from "./PackageTypesList";
+import { type PackageType, PackageTypesList } from "./PackageTypesList";
 
 const FormSchema = z.object({
-    departureCity: z.string().min(1, "Выберите пункт отправки"),
-    destinationCity: z.string().min(1, "Выберите пункт назначения"),
+    departureCity: z
+        .object({
+            id: z.string(),
+            name: z.string(),
+            latitude: z.number(),
+            longitude: z.number(),
+        })
+        .nullable()
+        .refine((val) => val !== null, {
+            message: "Выберите пункт отправки",
+        }),
+    destinationCity: z
+        .object({
+            id: z.string(),
+            name: z.string(),
+            latitude: z.number(),
+            longitude: z.number(),
+        })
+        .nullable()
+        .refine((val) => val !== null, {
+            message: "Выберите пункт назначения",
+        }),
     packageSize: z.string().min(1, "Выберите размер посылки"),
 });
 
 export function CountDeliveryForm() {
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
-        defaultValues: { packageSize: "" },
+        defaultValues: {
+            packageSize: "",
+            departureCity: null,
+            destinationCity: null,
+        },
     });
-
-    
 
     const { data: deliveryResponse, isLoading } = useDeliveryPointsQuery();
     const deliveryPoints = deliveryResponse?.data?.points || [];
 
-
-    const [selectedPackage, setSelectedPackage] = useState<string>("");
+    const [selectedPackage, setSelectedPackage] = useState<PackageType>({
+        id: "",
+        name: "",
+        length: 0,
+        width: 0,
+        height: 0,
+        weight: 0,
+    });
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
-        console.log("Форма отправлена:", data);
+        if (!data.departureCity || !data.destinationCity) {
+            console.error("Ошибка: Не выбраны пункты отправки или назначения");
+            return;
+        }
+
+        const formattedData = {
+            package: {
+                length: selectedPackage.length,
+                width: selectedPackage.width,
+                weight: selectedPackage.weight,
+                height: selectedPackage.height,
+            },
+            senderPoint: {
+                latitude: data.departureCity.latitude,
+                longitude: data.departureCity.longitude,
+            },
+            receiverPoint: {
+                latitude: data.destinationCity.latitude,
+                longitude: data.destinationCity.longitude,
+            },
+        };
+
+        console.log("Форма отправлена:", formattedData);
     }
 
     return (
@@ -77,25 +126,36 @@ export function CountDeliveryForm() {
                                             : "Пункт назначения"}
                                     </FormLabel>
                                     <Select
-                                        onValueChange={field.onChange}
-                                        defaultValue={field.value}
+                                        onValueChange={(value) => {
+                                            const point = deliveryPoints.find(
+                                                (p) => p.id === value
+                                            );
+                                            if (point) {
+                                                field.onChange(point);
+                                            }
+                                        }}
+                                        value={field.value?.id || ""}
                                     >
                                         <FormControl>
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Выберите пункт" />
+                                                <SelectValue
+                                                    placeholder={
+                                                        name === "departureCity"
+                                                            ? "Выберите пункт отправки"
+                                                            : "Выберите пункт назначения"
+                                                    }
+                                                />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            {deliveryPoints.map(
-                                                (point: DeliveryPoint) => (
-                                                    <SelectItem
-                                                        key={point.id}
-                                                        value={point.name}
-                                                    >
-                                                        {point.name}
-                                                    </SelectItem>
-                                                )
-                                            )}
+                                            {deliveryPoints.map((point) => (
+                                                <SelectItem
+                                                    key={point.id}
+                                                    value={point.id}
+                                                >
+                                                    {point.name}
+                                                </SelectItem>
+                                            ))}
                                         </SelectContent>
                                     </Select>
                                     <FormMessage />
@@ -110,10 +170,11 @@ export function CountDeliveryForm() {
                     name="packageSize"
                     render={({ field }) => (
                         <FormItem>
+                            <FormLabel>Размер посылки</FormLabel>
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Button variant="outline">
-                                        {selectedPackage ||
+                                        {selectedPackage.name ||
                                             "Выберите размер посылки"}
                                     </Button>
                                 </DropdownMenuTrigger>
@@ -122,7 +183,12 @@ export function CountDeliveryForm() {
                                     align="start"
                                     className="max-h-[300px] w-[400px] fixed overflow-auto"
                                 >
-                                    <PackageTypesList setSelectedPackage={setSelectedPackage}/>
+                                    <PackageTypesList
+                                        setSelectedPackage={(packageType) => {
+                                            setSelectedPackage(packageType);
+                                            field.onChange(packageType.name);
+                                        }}
+                                    />
                                 </DropdownMenuContent>
                             </DropdownMenu>
                             <FormMessage />
