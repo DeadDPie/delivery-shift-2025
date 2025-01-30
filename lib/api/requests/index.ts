@@ -3,3 +3,4 @@ export * from "./fetchSessionRequests";
 export * from "./postSignInRequest";
 export * from "./updateUserProfileRequest";
 export * from "./fetchDeliveryPoints ";
+export * from "./fetchPackageTypes";

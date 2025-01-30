@@ -1,4 +1,5 @@
 import { CountDeliveryForm } from "./(components)/CountDeliveryForm";
+import { PackageTypesList } from "./(components)/PackageTypesList";
 
 export default function Home() {
     return (
