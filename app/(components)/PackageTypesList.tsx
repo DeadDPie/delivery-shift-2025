@@ -1,14 +1,13 @@
 "use client";
 
-import { Input, Label } from "@/components/ui";
+import { Button, Input, Label } from "@/components/ui";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 import { useState } from "react";
 
 import { usePackageTypesQuery } from "../(hooks)/usePackageTypesQuery";
 
-export function PackageTypesList({ onSelect }: any) {
-    // Hooks must be called at the top level
+export function PackageTypesList({ setSelectedPackage }: any) {
     const { data: packageTypesResponse, isLoading } = usePackageTypesQuery();
     const [selectedToggleValue, setSelectedToggleValue] = useState<
         string | undefined
@@ -41,6 +40,7 @@ export function PackageTypesList({ onSelect }: any) {
                 <ul>
                     {packageTypes.map((packageType) => (
                         <li
+                            onClick={() => setSelectedPackage(packageType.name)}
                             key={packageType.id}
                             className="cursor-pointer border p-2 m-2"
                         >
@@ -114,6 +114,12 @@ export function PackageTypesList({ onSelect }: any) {
                                 className="w-2/3"
                             />
                         </div>
+                        <Button
+                            type="button"
+                            onClick={() => setSelectedPackage("Свой размер")}
+                        >
+                            Подтвердить
+                        </Button>
                     </form>
                 </div>
             )}

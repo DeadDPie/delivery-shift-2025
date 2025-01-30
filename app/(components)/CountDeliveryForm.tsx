@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -22,7 +21,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { DeliveryPoint } from "@/lib/api/requests";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -45,37 +43,13 @@ export function CountDeliveryForm() {
         defaultValues: { packageSize: "" },
     });
 
-    const packageTypes = [
-        {
-            id: "1",
-            name: "Конверт",
-            length: 42,
-            width: 36,
-            height: 5,
-            weight: 2,
-        },
-        {
-            id: "2",
-            name: "Короб S",
-            length: 23,
-            width: 19,
-            height: 10,
-            weight: 2,
-        },
-        {
-            id: "3",
-            name: "Короб M",
-            length: 33,
-            width: 25,
-            height: 15,
-            weight: 5,
-        },
-    ];
+    
 
     const { data: deliveryResponse, isLoading } = useDeliveryPointsQuery();
     const deliveryPoints = deliveryResponse?.data?.points || [];
+
+
     const [selectedPackage, setSelectedPackage] = useState<string>("");
-    const [selectedToggleValue, setSelectedToggleValue] = useState<string>("");
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
         console.log("Форма отправлена:", data);
@@ -146,9 +120,9 @@ export function CountDeliveryForm() {
                                 <DropdownMenuContent
                                     side="right"
                                     align="start"
-                                    className="max-h-[300px] w-[400px] fixed  overflow-auto"
+                                    className="max-h-[300px] w-[400px] fixed overflow-auto"
                                 >
-                                    <PackageTypesList />
+                                    <PackageTypesList setSelectedPackage={setSelectedPackage}/>
                                 </DropdownMenuContent>
                             </DropdownMenu>
                             <FormMessage />
