@@ -7,7 +7,6 @@ import { useState } from "react";
 
 import { usePackageTypesQuery } from "../(hooks)/usePackageTypesQuery";
 
-// Определяем тип для объекта "посылка"
 export type PackageType = {
     id: string;
     name: string;

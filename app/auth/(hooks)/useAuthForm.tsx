@@ -33,7 +33,7 @@ export const useAuthForm = () => {
     ) => {
         if ("phone" in values && !isOtpStage) {
             postOtpQuery.mutate(
-                { params: { phone: values.phone } }, // Обернули в params
+                { params: { phone: values.phone } },
                 {
                     onSuccess: () => setOtpStage(true),
                 }
