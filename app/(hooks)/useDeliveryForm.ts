@@ -1,4 +1,6 @@
+import { ROUTES } from "@/lib/constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 import { useState } from "react";
@@ -13,6 +15,7 @@ import { usePostDeliveryCalcMutation } from "./usePostDeliveryCalcMutation";
 
 export function useDeliveryForm() {
     const postDeliveryCalc = usePostDeliveryCalcMutation();
+    const router = useRouter();
 
     const form = useForm<DeliveryFormData>({
         resolver: zodResolver(DeliveryFormSchema),
@@ -62,6 +65,7 @@ export function useDeliveryForm() {
             {
                 onSuccess: (response) => {
                     console.log("Успешно:", response);
+                    router.push(ROUTES.ORDER_DELIVERY);
                 },
                 onError: (error) => {
                     console.error("Ошибка:", error);
