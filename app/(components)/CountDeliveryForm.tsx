@@ -21,95 +21,23 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 
-import { useState } from "react";
-
-import { useDeliveryPointsQuery } from "../(hooks)/useDeliveryPointsQuery ";
-import { type PackageType, PackageTypesList } from "./PackageTypesList";
-
-const FormSchema = z.object({
-    departureCity: z
-        .object({
-            id: z.string(),
-            name: z.string(),
-            latitude: z.number(),
-            longitude: z.number(),
-        })
-        .nullable()
-        .refine((val) => val !== null, {
-            message: "Выберите пункт отправки",
-        }),
-    destinationCity: z
-        .object({
-            id: z.string(),
-            name: z.string(),
-            latitude: z.number(),
-            longitude: z.number(),
-        })
-        .nullable()
-        .refine((val) => val !== null, {
-            message: "Выберите пункт назначения",
-        }),
-    packageSize: z.string().min(1, "Выберите размер посылки"),
-});
+import { useDeliveryForm } from "../(hooks)/useDeliveryForm";
+import { PackageTypesList } from "./PackageTypesList";
 
 export function CountDeliveryForm() {
-    const form = useForm<z.infer<typeof FormSchema>>({
-        resolver: zodResolver(FormSchema),
-        defaultValues: {
-            packageSize: "",
-            departureCity: null,
-            destinationCity: null,
-        },
-    });
-
-    const { data: deliveryResponse, isLoading } = useDeliveryPointsQuery();
-    const deliveryPoints = deliveryResponse?.data?.points || [];
-
-    const [selectedPackage, setSelectedPackage] = useState<PackageType>({
-        id: "",
-        name: "",
-        length: 0,
-        width: 0,
-        height: 0,
-        weight: 0,
-    });
-
-    function onSubmit(data: z.infer<typeof FormSchema>) {
-        if (!data.departureCity || !data.destinationCity) {
-            console.error("Ошибка: Не выбраны пункты отправки или назначения");
-            return;
-        }
-
-        const formattedData = {
-            package: {
-                length: selectedPackage.length,
-                width: selectedPackage.width,
-                weight: selectedPackage.weight,
-                height: selectedPackage.height,
-            },
-            senderPoint: {
-                latitude: data.departureCity.latitude,
-                longitude: data.departureCity.longitude,
-            },
-            receiverPoint: {
-                latitude: data.destinationCity.latitude,
-                longitude: data.destinationCity.longitude,
-            },
-        };
-
-        console.log("Форма отправлена:", formattedData);
-    }
+    const {
+        form,
+        isLoading,
+        deliveryPoints,
+        selectedPackage,
+        setSelectedPackage,
+        onSubmit,
+    } = useDeliveryForm();
 
     return (
         <Form {...form}>
-            <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="w-2/3 space-y-6"
-            >
+            <form onSubmit={onSubmit} className="w-2/3 space-y-6">
                 {isLoading ? (
                     <p>Загрузка пунктов выдачи...</p>
                 ) : (
