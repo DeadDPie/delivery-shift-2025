@@ -3,6 +3,10 @@
 
     "page.phone": "Телефон",
     "page.profile.title": "Профиль",
+    "page.street": "Улица",
+    "page.house": "Дом",
+    "page.apartment": "Квартира",
+    "page.comment": "Заметка для курьера",
 
     "page.profile.form.name": "Имя",
     "page.profile.form.middlename": "Отчество",
