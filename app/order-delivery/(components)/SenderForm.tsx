@@ -15,11 +15,11 @@ import { useI18n } from "@/lib/contexts/i18n";
 
 import { memo, useEffect, useRef } from "react";
 
-import { useReceiverForm } from "../(hooks)/useReceiverForm";
+import { useSenderForm } from "../(hooks)/useSenderForm";
 
 export const SenderForm = memo(() => {
     const intl = useI18n();
-    const { form, onSubmit } = useReceiverForm();
+    const { form, onSubmit } = useSenderForm();
     const { updateFormData, updateStepValidity, currentStep } = useStep();
 
     const formValues = form.watch();
@@ -30,7 +30,7 @@ export const SenderForm = memo(() => {
             JSON.stringify(prevFormValues.current) !==
             JSON.stringify(formValues)
         ) {
-            updateFormData("receiver", formValues);
+            updateFormData("sender", formValues);
             prevFormValues.current = formValues;
         }
 
