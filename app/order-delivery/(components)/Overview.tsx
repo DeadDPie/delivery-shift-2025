@@ -18,7 +18,10 @@ export const Overview = () => {
         <div className="space-y-4">
             <h2 className="text-lg font-semibold">Обзор заказа</h2>
             <pre className="bg-gray-100 p-4 rounded">
+                formData
                 {JSON.stringify(formData, null, 2)}
+                <br />
+                <br />
                 {JSON.stringify(data, null, 2)}
             </pre>
             <Button onClick={handleSubmit}>Отправить заказ</Button>

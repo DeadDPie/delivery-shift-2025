@@ -8,17 +8,18 @@ import { cn } from "@/lib/utils";
 
 import { useState } from "react";
 
-
 export const OptionForm = () => {
     const { data } = useDeliveryStore();
     const deliveries = data?.response?.data.options;
-    data && console.log(data?.response.data.options);
-    const { updateFormData } = useStep();
+    const { updateFormData, updateStepValidity, currentStep } = useStep();
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
-    const handleSelect = (delivery: (typeof deliveries)[number]) => {
+    const handleSelect = (delivery: DeliveryOption) => {
+        if (selectedOption === delivery.id) return; 
+
         setSelectedOption(delivery.id);
         updateFormData("option", delivery);
+        updateStepValidity(currentStep, true);
     };
 
     return (

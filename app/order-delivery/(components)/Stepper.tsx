@@ -5,7 +5,8 @@ import { Progress } from "@/components/ui/progress";
 import { useStep } from "@/lib/contexts/StepContext";
 
 const Stepper = () => {
-    const { currentStep, totalSteps, goNext, goBack, isLastStep } = useStep();
+    const { currentStep, totalSteps, goNext, goBack, isLastStep, isStepValid } =
+        useStep();
     const progressPercentage = ((currentStep + 1) / totalSteps) * 100;
 
     return (
@@ -22,7 +23,7 @@ const Stepper = () => {
                 <Button onClick={goBack} disabled={currentStep === 0}>
                     Назад
                 </Button>
-                <Button onClick={goNext}>
+                <Button onClick={goNext} disabled={!isStepValid}>
                     {isLastStep ? "Отправить" : "Вперед"}
                 </Button>
             </div>

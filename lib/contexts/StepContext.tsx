@@ -2,7 +2,7 @@
 
 import { ORDER_DELIVERY_STAGES } from "@/app/order-delivery/(constants)/constants";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 
 interface FormData {
     option?: any;
@@ -20,8 +20,10 @@ interface StepContextProps {
     goNext: () => void;
     goBack: () => void;
     isLastStep: boolean;
+    isStepValid: boolean;
     formData: FormData;
-    updateFormData: (step: any, data: any) => void;
+    updateFormData: (step: keyof FormData, data: any) => void;
+    updateStepValidity: (step: number, isValid: boolean) => void;
 }
 
 const StepContext = createContext<StepContextProps | undefined>(undefined);
@@ -29,11 +31,14 @@ const StepContext = createContext<StepContextProps | undefined>(undefined);
 export const StepProvider = ({ children }: { children: React.ReactNode }) => {
     const [currentStep, setCurrentStep] = useState<number>(0);
     const [formData, setFormData] = useState<FormData>({});
+    const [formValidity, setFormValidity] = useState<Record<number, boolean>>(
+        {}
+    );
 
     const stepsLength = Object.keys(ORDER_DELIVERY_STAGES).length;
 
     const goNext = () => {
-        if (currentStep < stepsLength - 1) {
+        if (currentStep < stepsLength - 1 && formValidity[currentStep]) {
             setCurrentStep((prev) => prev + 1);
         }
     };
@@ -43,27 +48,44 @@ export const StepProvider = ({ children }: { children: React.ReactNode }) => {
             setCurrentStep((prev) => prev - 1);
         }
     };
-    const updateFormData = (step: any, data: any) => {
-        setFormData((prev) => ({
-            ...prev,
-            [step]: data,
-        }));
+
+    const updateFormData = (step: keyof FormData, data: any) => {
+        setFormData((prev) => {
+            if (prev[step] === data) return prev;
+            return {
+                ...prev,
+                [step]: data,
+            };
+        });
     };
 
+    const updateStepValidity = (step: number, isValid: boolean) => {
+        setFormValidity((prev) => {
+            if (prev[step] === isValid) return prev; // Не обновлять, если валидность не изменилась
+            return {
+                ...prev,
+                [step]: isValid,
+            };
+        });
+    };
+
+    const value = useMemo(
+        () => ({
+            currentStep,
+            totalSteps: stepsLength,
+            goNext,
+            goBack,
+            isLastStep: currentStep === stepsLength - 1,
+            isStepValid: formValidity[currentStep] ?? false,
+            formData,
+            updateFormData,
+            updateStepValidity,
+        }),
+        [formData, formValidity, updateFormData, updateStepValidity]
+    );
+
     return (
-        <StepContext.Provider
-            value={{
-                currentStep,
-                totalSteps: stepsLength,
-                goNext,
-                goBack,
-                isLastStep: currentStep === stepsLength - 1,
-                formData,
-                updateFormData,
-            }}
-        >
-            {children}
-        </StepContext.Provider>
+        <StepContext.Provider value={value}>{children}</StepContext.Provider>
     );
 };
 
