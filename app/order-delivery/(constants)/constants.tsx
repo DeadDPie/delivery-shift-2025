@@ -1,5 +1,6 @@
 import { OptionForm } from "../(components)/OptionForm";
 import { Overview } from "../(components)/Overview";
+import { PayerForm } from "../(components)/PayerForm";
 import { ReceiverAddressForm } from "../(components)/ReceiverAddressForm";
 import { ReceiverForm } from "../(components)/ReceiverForm";
 import { SenderAddressForm } from "../(components)/SenderAddressForm";
@@ -11,6 +12,6 @@ export const ORDER_DELIVERY_STAGES = {
     sender: SenderForm,
     senderAddress: SenderAddressForm,
     receiverAddress: ReceiverAddressForm,
-    payer: Overview,
+    payer: PayerForm,
     overview: Overview,
 };
