@@ -1,11 +1,17 @@
 "use client";
 
+import { usePostDeliveryOrderMutation } from "@/app/(hooks)/usePostDeliveryOrderMutation";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { PostDeliveryOrderParams } from "@/lib/api/requests";
+import { ROUTES } from "@/lib/constants/routes";
 import { useStep } from "@/lib/contexts/StepContext";
 import useDeliveryStore from "@/lib/store/deliveryStore";
+import { useRouter } from "next/navigation";
 
 const Stepper = () => {
+    const router = useRouter();
+
     const {
         currentStep,
         totalSteps,
@@ -16,14 +22,33 @@ const Stepper = () => {
         formData,
     } = useStep();
     const { data, clearData } = useDeliveryStore();
+    const postDeliveryOrder = usePostDeliveryOrderMutation();
 
     const handleSubmit = () => {
-        const updatedFormData = {
-            ...formData,
-            senderPoint: data.params?.senderPoint || null,
-            receiverPoint: data.params?.receiverPoint || null,
+        const updatedFormData: PostDeliveryOrderParams = {
+            senderPoint: data.params?.senderPoint || formData.senderPoint,
+            receiverPoint: data.params?.receiverPoint || formData.receiverPoint,
+            sender: formData.sender,
+            senderAddress: formData.senderAddress,
+            receiver: formData.receiver,
+            receiverAddress: formData.receiverAddress,
+            payer: formData.payer,
+            option: formData.option,
         };
 
+        postDeliveryOrder.mutate(
+            {
+                params: updatedFormData,
+            },
+            {
+                onSuccess: (response) => {
+                    console.log("Отправка данных:", response);
+                },
+                onError: (error) => {
+                    console.error("Ошибка при отправка данных:", error);
+                },
+            }
+        );
         console.log("Отправка данных:", updatedFormData);
 
         clearData();
@@ -31,9 +56,9 @@ const Stepper = () => {
 
     const handleNext = () => {
         if (isLastStep) {
-            handleSubmit(); 
+            handleSubmit();
         } else {
-            goNext(); 
+            goNext();
         }
     };
 

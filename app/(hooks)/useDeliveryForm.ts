@@ -55,14 +55,13 @@ export function useDeliveryForm() {
                 height: selectedPackage.height,
             },
             senderPoint: {
-                latitude: data.departureCity.latitude,
-                longitude: data.departureCity.longitude,
+                ...data.departureCity,
             },
             receiverPoint: {
-                latitude: data.destinationCity.latitude,
-                longitude: data.destinationCity.longitude,
+                ...data.destinationCity,
             },
         };
+        console.log(data);
         postDeliveryCalc.mutate(
             { params: formattedData },
             {

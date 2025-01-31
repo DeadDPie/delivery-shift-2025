@@ -4,13 +4,22 @@ import { ORDER_DELIVERY_STAGES } from "@/app/order-delivery/(constants)/constant
 
 import { createContext, useContext, useMemo, useState } from "react";
 
+import {
+    Address,
+    DeliveryOption,
+    DeliveryPoint,
+    Person,
+} from "../api/requests";
+
 interface FormData {
-    option?: any;
-    receiver?: any;
-    sender?: any;
-    senderAddress?: any;
-    receiverAddress?: any;
-    payer?: any;
+    senderPoint?: DeliveryPoint;
+    receiverPoint?: DeliveryPoint;
+    option?: DeliveryOption;
+    receiver?: Person;
+    sender?: Person;
+    senderAddress?: Address;
+    receiverAddress?: Address;
+    payer?: "RECEIVER" | "SENDER";
     overview?: any;
 }
 

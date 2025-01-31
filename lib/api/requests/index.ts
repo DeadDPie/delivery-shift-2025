@@ -5,3 +5,4 @@ export * from "./updateUserProfileRequest";
 export * from "./fetchDeliveryPoints ";
 export * from "./fetchPackageTypes";
 export * from "./postDeliveryCalc";
+export * from "./postDeliveryOrder";
