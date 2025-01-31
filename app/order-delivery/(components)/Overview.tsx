@@ -1,18 +1,12 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { useStep } from "@/lib/contexts/StepContext";
 import useDeliveryStore from "@/lib/store/deliveryStore";
 
 export const Overview = () => {
-    const { formData } = useStep();
-    const { data, clearData } = useDeliveryStore();
-
-    const handleSubmit = () => {
-        console.log("Отправка данных:", formData);
-
-        clearData();
-    };
+    const { data } = useDeliveryStore();
+    const { formData, updateStepValidity, currentStep } = useStep();
+    updateStepValidity(currentStep, true);
 
     return (
         <div className="space-y-4">
@@ -22,9 +16,8 @@ export const Overview = () => {
                 {JSON.stringify(formData, null, 2)}
                 <br />
                 <br />
-                {JSON.stringify(data, null, 2)}
+                {JSON.stringify(data.params, null, 2)}
             </pre>
-            <Button onClick={handleSubmit}>Отправить заказ</Button>
         </div>
     );
 };
