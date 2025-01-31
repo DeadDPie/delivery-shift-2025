@@ -10,10 +10,10 @@ export const useSenderAddressForm = () => {
     const form = useForm({
         resolver: zodResolver(senderAddressSchema),
         defaultValues: {
-            street: formData.senderAddress?.street || "", // Улица
-            house: formData.senderAddress?.house || "", // Дом
-            apartment: formData.senderAddress?.apartment || "", // Квартира
-            comment: formData.senderAddress?.comment || "", // Комментарий
+            street: formData.senderAddress?.street || "",
+            house: formData.senderAddress?.house || "",
+            apartment: formData.senderAddress?.apartment || "",
+            comment: formData.senderAddress?.comment || "",
         },
         mode: "onChange",
     });

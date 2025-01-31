@@ -61,7 +61,7 @@ export const StepProvider = ({ children }: { children: React.ReactNode }) => {
 
     const updateStepValidity = (step: number, isValid: boolean) => {
         setFormValidity((prev) => {
-            if (prev[step] === isValid) return prev; // Не обновлять, если валидность не изменилась
+            if (prev[step] === isValid) return prev;
             return {
                 ...prev,
                 [step]: isValid,

@@ -25,7 +25,6 @@ export const useReceiverForm = () => {
         mode: "onChange",
     });
 
-    // Функция отправки формы
     const onSubmit = form.handleSubmit((values) => {
         updateFormData("receiver", values);
     });
