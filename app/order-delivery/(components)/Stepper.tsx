@@ -7,6 +7,7 @@ import { PostDeliveryOrderParams } from "@/lib/api/requests";
 import { ROUTES } from "@/lib/constants/routes";
 import { useStep } from "@/lib/contexts/StepContext";
 import useDeliveryStore from "@/lib/store/deliveryStore";
+import useOrderStore, { OrderData } from "@/lib/store/orderStore";
 import { useRouter } from "next/navigation";
 
 const Stepper = () => {
@@ -22,6 +23,8 @@ const Stepper = () => {
         formData,
     } = useStep();
     const { data, clearData } = useDeliveryStore();
+    const { setData } = useOrderStore();
+
     const postDeliveryOrder = usePostDeliveryOrderMutation();
 
     const handleSubmit = () => {
@@ -43,6 +46,73 @@ const Stepper = () => {
             {
                 onSuccess: (response) => {
                     console.log("Отправка данных:", response);
+
+                    const orderData: OrderData = {
+                        data: {
+                            success: response.data.success,
+                            order: {
+                                senderPoint: response.data.order.senderPoint,
+                                senderAddress: {
+                                    street: response.data.order.senderAddress
+                                        .street,
+                                    house: response.data.order.senderAddress
+                                        .house,
+                                    apartment:
+                                        response.data.order.senderAddress
+                                            .apartment,
+                                    comment:
+                                        response.data.order.senderAddress
+                                            .comment || "", // Если comment undefined, используем пустую строку
+                                },
+                                sender: response.data.order.sender,
+                                receiverPoint:
+                                    response.data.order.receiverPoint,
+                                receiverAddress: {
+                                    street: response.data.order.receiverAddress
+                                        .street,
+                                    house: response.data.order.receiverAddress
+                                        .house,
+                                    apartment:
+                                        response.data.order.receiverAddress
+                                            .apartment,
+                                    comment:
+                                        response.data.order.receiverAddress
+                                            .comment || "", // Если comment undefined, используем пустую строку
+                                },
+                                receiver: response.data.order.receiver,
+                                payer: response.data.order.payer,
+                                status: response.data.order.status,
+                                cancellable: response.data.order.cancellable,
+                                _id: response.data.order._id,
+                                created: response.data.order.created,
+                                updated: response.data.order.updated,
+                            },
+                        },
+                        status: response.status,
+                        statusText: response.statusText,
+                        headers: {
+                            "content-length":
+                                response.headers["content-length"],
+                            "content-type": response.headers["content-type"],
+                        },
+                        config: {
+                            timeout: response.config.timeout,
+                            xsrfCookieName: response.config.xsrfCookieName,
+                            xsrfHeaderName: response.config.xsrfHeaderName,
+                            maxContentLength: response.config.maxContentLength,
+                            maxBodyLength: response.config.maxBodyLength,
+                            env: response.config.env,
+
+                            baseURL: response.config.baseURL,
+                            method: response.config.method,
+                            url: response.config.url,
+                            data: response.config.data,
+                        },
+                        request: response.request,
+                    };
+
+                    setData(orderData);
+                    router.push(ROUTES.RESULT_ORDER);
                 },
                 onError: (error) => {
                     console.error("Ошибка при отправка данных:", error);

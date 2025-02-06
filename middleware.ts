@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-import { ROUTES } from "./lib/constants/routes";
-
 export function middleware(req: NextRequest) {
     const token = req.cookies.get("token")?.value;
 
@@ -15,5 +13,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/", "/profile"],
+    matcher: ["/", "/profile", "/order-delivery", "/result-order"],
 };
