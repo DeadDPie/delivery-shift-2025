@@ -21,7 +21,7 @@ export default function ProfilePage() {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen gap-6">
                 <I18nText
-                    id="page.profile.error"
+                    id="message.error"
                     values={{ error: error?.message || "Неизвестная ошибка" }}
                 />
             </div>
@@ -34,7 +34,7 @@ export default function ProfilePage() {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen gap-6">
                 <I18nText
-                    id="page.profile.error"
+                    id="message.error"
                     values={{ error: "Данные пользователя не найдены" }}
                 />
             </div>

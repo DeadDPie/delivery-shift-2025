@@ -41,12 +41,12 @@ export const UserForm = ({ initialData }: UserFormProps) => {
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>
-                                    <I18nText id="page.phone" />
+                                    <I18nText id="field.phone" />
                                 </FormLabel>
                                 <FormControl>
                                     <Input
                                         placeholder={intl.formatMessage({
-                                            id: "page.phone",
+                                            id: "field.phone",
                                         })}
                                         {...field}
                                     />

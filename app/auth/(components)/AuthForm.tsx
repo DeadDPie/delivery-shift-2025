@@ -37,7 +37,7 @@ export const AuthForm = () => {
                             <FormControl>
                                 <Input
                                     placeholder={intl.formatMessage({
-                                        id: "page.phone",
+                                        id: "field.phone",
                                     })}
                                     {...field}
                                     onChange={(e) => {
@@ -88,7 +88,7 @@ export const AuthForm = () => {
                     {isOtpStage ? (
                         <I18nText id="page.auth.loginForm.button.login" />
                     ) : (
-                        <I18nText id="page.auth.loginForm.button.continue" />
+                        <I18nText id="button.continue" />
                     )}
                 </Button>
             </form>
