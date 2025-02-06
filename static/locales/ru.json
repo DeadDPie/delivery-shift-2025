@@ -1,0 +1,25 @@
+{
+    "app.title": "Delivery",
+
+    "field.phone": "Телефон",
+    "message.error": "Ошибка: {{error}}",
+
+    "page.profile.title": "Профиль",
+
+    "page.profile.form.name": "Имя",
+    "page.profile.form.middlename": "Отчество",
+    "page.profile.form.lastname": "Фамилия",
+    "page.profile.form.email": "Электронная почта",
+    "page.profile.form.city": "Город",
+    "page.profile.form.submit": "Обновить данные",
+    "page.profile.loading": "Загрузка данных о пользователе...",
+
+    "page.auth.loginForm.title": "Авторизация",
+    "page.auth.loginForm.description.phone": "Введите номер телефона для входа в личный кабинет",
+    "page.auth.loginForm.placeholder.otp": "Проверочный код",
+    "page.auth.loginForm.error.phone": "Введите корректный номер телефона",
+    "page.auth.loginForm.error.otp": "Введите проверочный код",
+    "page.auth.loginForm.button.login": "Войти",
+
+    "button.continue": "Продолжить"
+}
