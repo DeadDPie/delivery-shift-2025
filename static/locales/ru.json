@@ -1,7 +1,7 @@
 {
     "app.title": "Delivery",
 
-    "page.phone": "Телефон",
+    "field.phone": "Телефон",
     "message.error": "Ошибка: {{error}}",
 
     "page.profile.title": "Профиль",
