@@ -1,4 +1,4 @@
-import { ReactQueryClientProvider } from "@/lib/contexts/ReactQueryClientProvider";
+import { ReactQueryClientProvider } from "@/lib/contexts/queryClient/ReactQueryClientProvider";
 import { I18nProvider } from "@/lib/contexts/i18n";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
