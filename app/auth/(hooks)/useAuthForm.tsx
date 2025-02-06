@@ -15,8 +15,8 @@ export const useAuthForm = () => {
     const router = useRouter();
 
     const [isOtpStage, setOtpStage] = useState(false);
-    const postOtpQuery = usePostOtpMutation();
-    const postSignInQuery = usePostSignInMutation();
+    const postOtpMutation = usePostOtpMutation();
+    const postSignInMutation = usePostSignInMutation();
 
     const form = useForm<
         z.infer<typeof phoneFormScheme | typeof otpFormScheme>
@@ -32,14 +32,14 @@ export const useAuthForm = () => {
         values: z.infer<typeof phoneFormScheme | typeof otpFormScheme>
     ) => {
         if ("phone" in values && !isOtpStage) {
-            postOtpQuery.mutate(
+            postOtpMutation.mutate(
                 { params: { phone: values.phone } }, // Обернули в params
                 {
                     onSuccess: () => setOtpStage(true),
                 }
             );
         } else if ("otp" in values) {
-            postSignInQuery.mutate(
+            postSignInMutation.mutate(
                 {
                     params: {
                         phone: form.getValues("phone"),

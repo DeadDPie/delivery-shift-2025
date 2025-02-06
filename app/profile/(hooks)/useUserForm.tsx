@@ -6,7 +6,7 @@ import { UserFormData, userFormSchema } from "../(constants)/userFormSchemas";
 import { useUpdateProfileMutation } from "./useUpdateProfileMutation";
 
 export const useUserForm = (initialData: User) => {
-    const { mutate: updateProfileMutate } = useUpdateProfileMutation();
+    const updateProfileMutate = useUpdateProfileMutation();
 
     const form = useForm<UserFormData>({
         resolver: zodResolver(userFormSchema),
@@ -21,7 +21,7 @@ export const useUserForm = (initialData: User) => {
     });
 
     const onFormSubmit = (values: UserFormData) => {
-        updateProfileMutate(
+        updateProfileMutate.mutate(
             {
                 params: {
                     phone: values.phone,

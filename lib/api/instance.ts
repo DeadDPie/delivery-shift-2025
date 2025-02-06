@@ -3,7 +3,7 @@ import { getCookie as getCookieClient } from "cookies-next/client";
 import { getCookie as getCookieServer } from "cookies-next/server";
 
 import { API_URL } from "../constants/apiUrl";
-import { iS_SSR } from "../constants/isSSR";
+import { isSSR } from "../constants/isSSR";
 
 export const instance = axios.create({
     baseURL: API_URL,
@@ -17,7 +17,7 @@ instance.interceptors.request.use(
     (config) => {
         let token: string | undefined;
 
-        if (iS_SSR) {
+        if (isSSR) {
             token = getCookieServer("token")?.toString() || "";
         } else {
             token = getCookieClient("token")?.toString() || "";
