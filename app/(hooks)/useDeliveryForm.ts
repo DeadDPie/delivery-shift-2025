@@ -1,0 +1,90 @@
+import { ROUTES } from "@/lib/constants/routes";
+import useDeliveryStore from "@/lib/store/deliveryStore";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+
+import { useState } from "react";
+
+import { PackageType } from "../(components)/PackageTypesList";
+import {
+    DeliveryFormData,
+    DeliveryFormSchema,
+} from "../(constants)/DeliveryFormSchema";
+import { useDeliveryPointsQuery } from "./useDeliveryPointsQuery ";
+import { usePostDeliveryCalcMutation } from "./usePostDeliveryCalcMutation";
+
+export function useDeliveryForm() {
+    const postDeliveryCalc = usePostDeliveryCalcMutation();
+    const router = useRouter();
+
+    const { setData } = useDeliveryStore();
+
+    const form = useForm<DeliveryFormData>({
+        resolver: zodResolver(DeliveryFormSchema),
+        defaultValues: {
+            packageSize: "",
+            departureCity: null,
+            destinationCity: null,
+        },
+    });
+
+    const { data: deliveryResponse, isLoading } = useDeliveryPointsQuery();
+    const deliveryPoints = deliveryResponse?.data?.points || [];
+
+    const [selectedPackage, setSelectedPackage] = useState<PackageType>({
+        id: "",
+        name: "",
+        length: 0,
+        width: 0,
+        height: 0,
+        weight: 0,
+    });
+
+    function onSubmit(data: DeliveryFormData) {
+        if (!data.departureCity || !data.destinationCity) {
+            console.error("Ошибка: Не выбраны пункты отправки или назначения");
+            return;
+        }
+
+        const formattedData = {
+            package: {
+                length: selectedPackage.length,
+                width: selectedPackage.width,
+                weight: selectedPackage.weight,
+                height: selectedPackage.height,
+            },
+            senderPoint: {
+                ...data.departureCity,
+            },
+            receiverPoint: {
+                ...data.destinationCity,
+            },
+        };
+        console.log(data);
+        postDeliveryCalc.mutate(
+            { params: formattedData },
+            {
+                onSuccess: (response) => {
+                    console.log("Успешно:", response);
+                    setData({ params: formattedData, response });
+                    router.push(ROUTES.ORDER_DELIVERY);
+                },
+                onError: (error) => {
+                    console.error("Ошибка:", error);
+                },
+            }
+        );
+
+        console.log("Форма отправлена:", formattedData);
+    }
+
+    return {
+        form,
+        isLoading,
+        deliveryPoints,
+        selectedPackage,
+        setSelectedPackage,
+        onSubmit: form.handleSubmit(onSubmit),
+    };
+}
